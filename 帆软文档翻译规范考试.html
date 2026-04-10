@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帆软文档翻译规范考试</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --danger-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --border-color: #e0e0e0;
+            --bg-color: #f8f9fa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 顶部区域样式 */
+        .header {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .exam-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .info-group {
+            flex: 1 1 200px;
+        }
+
+        .info-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .info-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .timer-container {
+            background-color: #e3f2fd;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        /* 中部区域样式 */
+        .content-area {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            max-height: 65vh;
+            overflow-y: auto;
+        }
+
+        .navigation {
+            position: sticky;
+            top: 0;
+            background-color: white;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 10;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-item {
+            padding: 5px 10px;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #e3f2fd;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .question-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: white;
+            position: relative;
+        }
+
+        .question.incorrect {
+            border: 2px solid var(--danger-color);
+            background-color: #ffebee;
+        }
+
+        .question-number {
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .question-text {
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 16px;
+            user-select: none;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .option input {
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+
+        .option label {
+            user-select: none;
+        }
+
+        .explanation {
+            background-color: #e8f5e9;
+            border-left: 4px solid var(--success-color);
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .explanation h4 {
+            color: var(--success-color);
+            margin-bottom: 8px;
+        }
+
+        /* 底部区域样式 */
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #d35400;
+        }
+
+        /* 结果区样式 */
+        .result-area {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            display: none;
+        }
+
+        .score-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .score-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .score-details {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .score-card {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .score-card h3 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .score-card .value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .incorrect-questions {
+            margin-top: 30px;
+        }
+
+        .incorrect-questions h2 {
+            color: var(--danger-color);
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .submit-options {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .content-area {
+                max-height: none;
+                overflow-y: visible;
+            }
+
+            .navigation {
+                position: relative;
+                top: auto;
+            }
+
+            .user-info {
+                flex-direction: column;
+            }
+
+            .footer {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            display: none;
+        }
+
+        .notification.success {
+            background-color: var(--success-color);
+            display: block;
+        }
+
+        .notification.error {
+            background-color: var(--danger-color);
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 顶部区域 -->
+        <div class="header">
+            <h1 class="exam-title">帆软文档翻译规范考试</h1>
+
+            <div class="user-info">
+                <div class="info-group">
+                    <label for="student-name">考生姓名</label>
+                    <input type="text" id="student-name" placeholder="请输入您的姓名">
+                </div>
+                <div class="info-group">
+                    <label for="student-email">电子邮箱</label>
+                    <input type="email" id="student-email" placeholder="请输入您的邮箱">
+                </div>
+            </div>
+
+            <div class="timer-container">
+                剩余时间: <span id="timer">24:00:00</span>
+            </div>
+        </div>
+
+        <!-- 中部区域 -->
+        <div class="content-area" id="questions-container">
+            <div class="navigation" id="question-nav">
+                <!-- 导航按钮由JS动态生成 -->
+            </div>
+
+            <!-- 单选题部分 -->
+            <div class="question-section">
+                <div class="section-title">一、单选题（共50分；5分/题）</div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="D">
+                    <div class="question-number">1</div>
+                    <div class="question-text">以下哪个章节标题正确？</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q1" value="A" id="q1a">
+                            <label for="q1a">A. Import Table</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" value="B" id="q1b">
+                            <label for="q1b">B. Prepare data source</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" value="C" id="q1c">
+                            <label for="q1c">C. Creating Analysis Subject</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" value="D" id="q1d">
+                            <label for="q1d">D. Editing Data</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>文档标题统一采用名词短语或者动名词短语格式</p>
+                        <p>A. Import Table是动词短语格式，且Table作为单数可数名词，前面少冠词</p>
+                        <p>B. Prepare data source是动词短语格式，且不是Title Caps，data source作为单数可数名词，前面少冠词</p>
+                        <p>C. Creating Analysis Subject是动名词短语格式，但Analysis Subject作为单数可数名词，前面少冠词</p>
+                        <p>D. Editing Data是动名词短语格式，符合Title Caps格式，Data是不可数名词，无需冠词</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="B">
+                    <div class="question-number">2</div>
+                    <div class="question-text">以下哪个缩略语大小写正确？</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q2" value="A" id="q2a">
+                            <label for="q2a">A. xml</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" value="B" id="q2b">
+                            <label for="q2b">B. WebSocket</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" value="C" id="q2c">
+                            <label for="q2c">C. Ip</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" value="D" id="q2d">
+                            <label for="q2d">D. Css</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>正确书写分别是 XML，WebSocket，IP，CSS</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="B">
+                    <div class="question-number">3</div>
+                    <div class="question-text">以下哪个数字单位搭配正确？</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q3" value="A" id="q3a">
+                            <label for="q3a">A. 3 records</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" value="B" id="q3b">
+                            <label for="q3b">B. 8 km</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" value="C" id="q3c">
+                            <label for="q3c">C. 100 %</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" value="D" id="q3d">
+                            <label for="q3d">D. 60 ℃</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>A. 当数字小于等于10时，用全拼表示，大于10时，用阿拉伯数字表示。应该是three records</p>
+                        <p>B. 大多数情况下，数值与单位符号之间需要空格，应该是 7 km</p>
+                        <p>C. 单位是角度、摄氏度或百分号时，数值和单位之间不空格。应该是100%</p>
+                        <p>D. 单位是角度、摄氏度或百分号时，数值和单位之间不空格。应该是60℃</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="C">
+                    <div class="question-number">4</div>
+                    <div class="question-text">以下哪项的标点符号使用正确？</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q4" value="A" id="q4a">
+                            <label for="q4a">A. If you have installed the plugin, changed the authorization and
+                                performed re-registration, you need to restart the project.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" value="B" id="q4b">
+                            <label for="q4b">B. WEEK(serial_num): Returns a number representing which week it is in a
+                                year.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" value="C" id="q4c">
+                            <label for="q4c">C. WEEK("2005/1/6") returns 1. (The year starts from its first
+                                Sunday.)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" value="D" id="q4d">
+                            <label for="q4d">D. For details, see section "Registration Management".</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>A. 列举多项时，如使用and或者or时，倒数第二项后面统一加逗号。and performed re-registration前面需要加逗号</p>
+                        <p>B. 如果冒号后非完整句，那么首字母小写。Returns需要改成returns</p>
+                        <p>C. 如果冒号后是个完整的句子，那么首字母大写，括号内是完整的句子，需要加上句点，所以C项正确</p>
+                        <p>D. 当引用同一文档中的某个章节时，采用引号的方式，例如：For details, see section "Publishing Forms to Members."（注意下，句点 .
+                            是放在""的里面的，关于引号和句点的用法，可参考Punctuation Inside Or Outside Quotation Marks? |
+                            Thesaurus.com和https://www.hamilton.edu/academics/centers/writing/style/essentials/punctuation-of-quotations）。应该改为see
+                            section "Registration Management."</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="A">
+                    <div class="question-number">5</div>
+                    <div class="question-text">下列哪句话可以用作步骤？</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q5" value="A" id="q5a">
+                            <label for="q5a">A. After the project starts, access the link and disable CAS
+                                configuration.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" value="B" id="q5b">
+                            <label for="q5b">B. You can modify the configuration without restarting the project.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" value="C" id="q5c">
+                            <label for="q5c">C. The configuration dialog box pops up. Configure the plugin in the dialog
+                                box.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" value="D" id="q5d">
+                            <label for="q5d">D. Restarting the FineBI Project</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>步骤统一使用 do xxx格式，do xxx是祈使句（省略了you），本质上是告诉You（读者）要怎么操作。只有A符合这种格式。C选项中，开头并不是祈使句，因此不符合要求。</p>
+                    </div>
+                </div>
+
+                <!-- 单选题6-10题 -->
+                <div class="question" data-type="single" data-score="5" data-correct="D">
+                    <div class="question-number">6</div>
+                    <div class="question-text">下列哪句话可以用作前提条件？</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q6" value="A" id="q6a">
+                            <label for="q6a">A. You had installed the plugin.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q6" value="B" id="q6b">
+                            <label for="q6b">B. You can complete the plugin installation.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q6" value="C" id="q6c">
+                            <label for="q6c">C. You need to install the plugin.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q6" value="D" id="q6d">
+                            <label for="q6d">D. The plugin has been installed.</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>前提条件/环境准备一般是指在操作前就必须要完成/满足的事项/条件，如果该事项/条件没有完成/满足，那么接下来的操作就无法进行。因此前提条件/环境准备中要使用现在完成时时态，表示已完成但是对后面的事情有影响。只有D符合这个格式。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="B">
+                    <div class="question-number">7</div>
+                    <div class="question-text">Add a Template Message event and configure relevant settings ______ the
+                        Message Receiver tab page.</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q7" value="A" id="q7a">
+                            <label for="q7a">A. in</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q7" value="B" id="q7b">
+                            <label for="q7b">B. on</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q7" value="C" id="q7c">
+                            <label for="q7c">C. at</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q7" value="D" id="q7d">
+                            <label for="q7d">D. under</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>on the page是固定搭配。</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="B">
+                    <div class="question-number">8</div>
+                    <div class="question-text">Go back to the design setting page, click the Message Content tab, set
+                        Client to Teams Push, and ______ the needed app from the drop-down list in Teams App.</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q8" value="A" id="q8a">
+                            <label for="q8a">A. choose</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q8" value="B" id="q8b">
+                            <label for="q8b">B. select</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q8" value="C" id="q8c">
+                            <label for="q8c">C. click</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q8" value="D" id="q8d">
+                            <label for="q8d">D. tick</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>select表示选择，用于多个选项中选择一项，choose主要用于选择级联菜单和从快捷菜单中选择。</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="A">
+                    <div class="question-number">9</div>
+                    <div class="question-text">帆软英文技术文档中，以下哪个是"组件"的英文?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q9" value="A" id="q9a">
+                            <label for="q9a">A. component</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q9" value="B" id="q9b">
+                            <label for="q9b">B. control</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q9" value="C" id="q9c">
+                            <label for="q9c">C. widget</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q9" value="D" id="q9d">
+                            <label for="q9d">D. module</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>帆软的英文技术文档中，"组件"的英文是component，"控件"的英文是widget（部分历史文档中可能用的control），"模块"的英文是module</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="C">
+                    <div class="question-number">10</div>
+                    <div class="question-text">以下哪个标题使用了正确的Title Caps格式？</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q10" value="A" id="q10a">
+                            <label for="q10a">A. Deployment And Display</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q10" value="B" id="q10b">
+                            <label for="q10b">B. Configuration after restart</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q10" value="C" id="q10c">
+                            <label for="q10c">C. Preparation Before Startup</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q10" value="D" id="q10d">
+                            <label for="q10d">D. Obtaining Data From Databases</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>Title Caps：实词大写，如名词、代词、形容词、数词、动词、副词等。虚词小写，如冠词、介词、连词等。（其他：介词小于等于四个字母时小写，大于四个字母时大写。）</p>
+                        <p>A. And是连词且小于四个字母，应小写</p>
+                        <p>B. Configuration after restart是Sentence Caps，只有第一个单词的第一个字母大写了</p>
+                        <p>C. Preparation Before Startup符合Title Caps要求，Before虽然是介词，但是超过四个字母了，需要大写</p>
+                        <p>D. From是介词且等于四个字母，因此要小写</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 多选题部分 -->
+            <div class="question-section">
+                <div class="section-title">二、多选题（共25分；5分/题；多选不得分；少选，一个选项一分）</div>
+
+                <div class="question" data-type="multi" data-score="5" data-correct="A,C">
+                    <div class="question-number">11</div>
+                    <div class="question-text">"勾选复选框中的某一项"这句话中，可以使用以下哪个动词？</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="checkbox" name="q11" value="A" id="q11a">
+                            <label for="q11a">A. select</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q11" value="B" id="q11b">
+                            <label for="q11b">B. choose</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q11" value="C" id="q11c">
+                            <label for="q11c">C. tick</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q11" value="D" id="q11d">
+                            <label for="q11d">D. click</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q11" value="E" id="q11e">
+                            <label for="q11e">E. tap</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>tick只用于打勾的选中情况，select只要是选中的情况都可以用；choose主要用于选择级联菜单和从快捷菜单中选择；click表示在电脑端的单击；tap表示在移动端的单击</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="multi" data-score="5" data-correct="A,B,C,D,E">
+                    <div class="question-number">12</div>
+                    <div class="question-text">"After the projects starts, access the link (https://IP address:Port
+                        number/Project name/decision/url/cas/reset?username=Super admin username&password=Super admin
+                        password), and disable CAS configuration to restore to default settings."中，哪些部分需要斜体？</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="checkbox" name="q12" value="A" id="q12a">
+                            <label for="q12a">A. IP address</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q12" value="B" id="q12b">
+                            <label for="q12b">B. Port number</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q12" value="C" id="q12c">
+                            <label for="q12c">C. Project name</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q12" value="D" id="q12d">
+                            <label for="q12d">D. Super admin username</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q12" value="E" id="q12e">
+                            <label for="q12e">E. Super admin password</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>变量才需要斜体，因此只需要找出本段话中的变量即可，在网址中，IP address，Port number，Project
+                            name有点类似于家庭住址中的小区，单元楼号，和房门号，具体到特定的值才能定位到该网址，但是不同的用户拥有不同的IP address，Port number，Project
+                            name，因此这三个是变量；Super admin username和Super admin
+                            password分别是username和password的值，不同的超管账号具备不同的用户名和密码，因此这两个也是变量。</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="multi" data-score="5" data-correct="A,B,D,E">
+                    <div class="question-number">13</div>
+                    <div class="question-text">"Set Host Name and Port to required values, and modify the startup.bat
+                        file in the %Tomcat_HOME\bin directory."中，哪些部分需要加粗？</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="checkbox" name="q13" value="A" id="q13a">
+                            <label for="q13a">A. Host Name</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q13" value="B" id="q13b">
+                            <label for="q13b">B. Port</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q13" value="C" id="q13c">
+                            <label for="q13c">C. required values</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q13" value="D" id="q13d">
+                            <label for="q13d">D. startup.bat</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q13" value="E" id="q13e">
+                            <label for="q13e">E. %Tomcat_HOME\bin</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>英文技术文档中，参数、文件名/命令和目录需要加粗。Host Name和Port是参数，startup.bat是文件名，%Tomcat_HOME\bin是目录</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="multi" data-score="5" data-correct="A,B,C,D,E">
+                    <div class="question-number">14</div>
+                    <div class="question-text">以下哪些内容在英文技术文档中需要加粗？</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="checkbox" name="q14" value="A" id="q14a">
+                            <label for="q14a">A. 界面词</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q14" value="B" id="q14b">
+                            <label for="q14b">B. 参数</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q14" value="C" id="q14c">
+                            <label for="q14c">C. 命令</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q14" value="D" id="q14d">
+                            <label for="q14d">D. 文件名</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q14" value="E" id="q14e">
+                            <label for="q14e">E. 目录名</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>英文技术文档中，命令、文件名、表格名，目录名，代码都需要加粗</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="multi" data-score="5" data-correct="A,C">
+                    <div class="question-number">15</div>
+                    <div class="question-text">以下哪个选项能够表示步骤中的"登录到FineReport"操作？</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="checkbox" name="q15" value="A" id="q15a">
+                            <label for="q15a">A. Log in to FineReport.</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q15" value="B" id="q15b">
+                            <label for="q15b">B. Login to FineReport</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q15" value="C" id="q15c">
+                            <label for="q15c">C. Log out of FineReport</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="q15" value="D" id="q15d">
+                            <label for="q15d">D. Log into FineReport</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>步骤中的"登录到FineReport"操作，应该是个动作，需要用祈使句 do xxx格式。</p>
+                        <p>A. Log in是动词，表示"登录"，Log in是不及物动词，需要加上to连接宾语，A正确。</p>
+                        <p>B. Login是名词，表示"登录"，不符合祈使句 do xxx格式。</p>
+                        <p>C. Log out是动词，表示"登出"，符合祈使句 do xxx格式。</p>
+                        <p>D. Log into虽然可以用作动词表示"登录"，但不是正式用法，而且如果动词"登录"用log into，那么动词"登出"得用log
+                            outto（没有这种用法），所以需要用最正式的用法：Log in to表示动词"登录"，Log out of表示动词"登出"。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 判断题部分 -->
+            <div class="question-section">
+                <div class="section-title">三、判断正误（共25分；5分/题）</div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="B">
+                    <div class="question-number">16</div>
+                    <div class="question-text">"Click on the Add button to add an analysis subject."这句话符合帆软文档翻译规范</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q16" value="A" id="q16a">
+                            <label for="q16a">A. 正确</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q16" value="B" id="q16b">
+                            <label for="q16b">B. 错误</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>英文技术文档中，简洁性十分重要，点击XXX，用click而不是click on</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="A">
+                    <div class="question-number">17</div>
+                    <div class="question-text">"You can click Add User ______ System Management > User Management > All
+                        Users."中，斜杠处填 under</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q17" value="A" id="q17a">
+                            <label for="q17a">A. 正确</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q17" value="B" id="q17b">
+                            <label for="q17b">B. 错误</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>级联菜单做状语的时候，介词用under</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="B">
+                    <div class="question-number">18</div>
+                    <div class="question-text">"It is recommended to modify the configuration without restarting the
+                        project."这句话没有语法错误</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q18" value="A" id="q18a">
+                            <label for="q18a">A. 正确</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q18" value="B" id="q18b">
+                            <label for="q18b">B. 错误</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>没有 It is recommended to do xxx 这种用法，要么是xxx (名词/动名词) is recommended, 要么是You are advised to do
+                            xxx.</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="B">
+                    <div class="question-number">19</div>
+                    <div class="question-text">"Create a new database and connect it to FineBI."这句话没有语义错误</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q19" value="A" id="q19a">
+                            <label for="q19a">A. 正确</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q19" value="B" id="q19b">
+                            <label for="q19b">B. 错误</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>create本身就是新建的意思，指的是某个东西从无到有，而new本身就是从无到有的意思，create和new语义重复</p>
+                    </div>
+                </div>
+
+                <div class="question" data-type="single" data-score="5" data-correct="A">
+                    <div class="question-number">20</div>
+                    <div class="question-text">表格中的表头内容需要加粗</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q20" value="A" id="q20a">
+                            <label for="q20a">A. 正确</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q20" value="B" id="q20b">
+                            <label for="q20b">B. 错误</label>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <h4>解析：</h4>
+                        <p>英文技术文档中，表格中的表头内容需要加粗且加上阴影。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部区域 -->
+        <div class="footer">
+            <button class="btn btn-primary" id="submit-btn">提交试卷</button>
+            <button class="btn btn-warning" id="save-btn">保存进度</button>
+            <button class="btn btn-success" id="show-explanation-btn" style="display:none;">查看所有解析</button>
+        </div>
+
+        <!-- 结果区 -->
+        <div class="result-area" id="result-area">
+            <div class="score-container">
+                <h2>考试结果</h2>
+                <div class="score-value" id="total-score">0</div>
+                <p>总分：100分</p>
+            </div>
+
+            <div class="score-details">
+                <div class="score-card">
+                    <h3>单选题得分</h3>
+                    <div class="value" id="single-score">0</div>
+                    <p>满分：50分</p>
+                </div>
+                <div class="score-card">
+                    <h3>多选题得分</h3>
+                    <div class="value" id="multi-score">0</div>
+                    <p>满分：25分</p>
+                </div>
+                <div class="score-card">
+                    <h3>判断题得分</h3>
+                    <div class="value" id="judgment-score">0</div>
+                    <p>满分：25分</p>
+                </div>
+            </div>
+
+            <div class="incorrect-questions">
+                <h2>错题解析</h2>
+                <div id="incorrect-container">
+                    <!-- 错题解析由JS动态生成 -->
+                </div>
+            </div>
+
+            <div class="submit-options">
+                <button class="btn btn-primary" id="send-email-btn">发送成绩给考官</button>
+                <button class="btn btn-warning" id="review-btn">重新查看试卷</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 通知消息 -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // 初始化变量
+        let timerInterval;
+        const totalTime = 24 * 60 * 60; // 24小时（以秒计）
+        let timeLeft = totalTime;
+
+        // DOM加载完成后执行
+        document.addEventListener('DOMContentLoaded', function () {
+            // 初始化导航菜单
+            initNavigation();
+
+            // 初始化计时器
+            initTimer();
+
+            // 加载保存的进度
+            loadProgress();
+
+            // 添加事件监听器
+            document.getElementById('submit-btn').addEventListener('click', submitExam);
+            document.getElementById('save-btn').addEventListener('click', saveProgress);
+            document.getElementById('show-explanation-btn').addEventListener('click', showAllExplanations);
+            document.getElementById('send-email-btn').addEventListener('click', sendEmail);
+            document.getElementById('review-btn').addEventListener('click', reviewExam);
+
+            // 添加离开页面警告
+            window.addEventListener('beforeunload', handleBeforeUnload);
+
+            // 禁止题目文本复制
+            const questionTexts = document.querySelectorAll('.question-text');
+            questionTexts.forEach(text => {
+                text.style.userSelect = 'none';
+            });
+        });
+
+        // 初始化导航菜单
+        function initNavigation() {
+            const navContainer = document.getElementById('question-nav');
+            const questions = document.querySelectorAll('.question');
+
+            questions.forEach((question, index) => {
+                const navItem = document.createElement('div');
+                navItem.className = 'nav-item';
+                navItem.textContent = index + 1;
+                navItem.dataset.index = index;
+
+                navItem.addEventListener('click', function () {
+                    // 滚动到对应题目
+                    question.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    // 高亮当前导航项
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+
+                navContainer.appendChild(navItem);
+            });
+        }
+
+        // 初始化计时器
+        function initTimer() {
+            updateTimerDisplay();
+
+            timerInterval = setInterval(function () {
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showNotification('考试时间已结束，系统将自动提交试卷！', 'error');
+                    setTimeout(submitExam, 2000);
+                }
+            }, 1000);
+        }
+
+        // 更新计时器显示
+        function updateTimerDisplay() {
+            const hours = Math.floor(timeLeft / 3600);
+            const minutes = Math.floor((timeLeft % 3600) / 60);
+            const seconds = timeLeft % 60;
+
+            document.getElementById('timer').textContent =
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // 加载保存的进度
+        function loadProgress() {
+            const savedAnswers = localStorage.getItem('examProgress');
+            if (savedAnswers) {
+                try {
+                    const answers = JSON.parse(savedAnswers);
+
+                    // 恢复单选题答案
+                    const singleRadios = document.querySelectorAll('input[type="radio"]');
+                    singleRadios.forEach(radio => {
+                        const questionName = radio.name;
+                        if (answers[questionName] === radio.value) {
+                            radio.checked = true;
+                        }
+                    });
+
+                    // 恢复多选题答案
+                    const multiCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+                    multiCheckboxes.forEach(checkbox => {
+                        const questionName = checkbox.name;
+                        if (answers[questionName] && answers[questionName].includes(checkbox.value)) {
+                            checkbox.checked = true;
+                        }
+                    });
+
+                    showNotification('已恢复上次保存的答题进度', 'success');
+                } catch (e) {
+                    console.error('Failed to load progress:', e);
+                }
+            }
+        }
+
+        // 保存进度
+        function saveProgress() {
+            const answers = {};
+
+            // 保存单选题答案
+            const singleRadios = document.querySelectorAll('input[type="radio"]:checked');
+            singleRadios.forEach(radio => {
+                answers[radio.name] = radio.value;
+            });
+
+            // 保存多选题答案
+            const multiGroups = {};
+            const multiCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            multiCheckboxes.forEach(checkbox => {
+                if (!multiGroups[checkbox.name]) {
+                    multiGroups[checkbox.name] = [];
+                }
+                if (checkbox.checked) {
+                    multiGroups[checkbox.name].push(checkbox.value);
+                }
+            });
+
+            // 将多选题答案合并到总答案对象
+            Object.keys(multiGroups).forEach(group => {
+                answers[group] = multiGroups[group];
+            });
+
+            // 保存到localStorage
+            localStorage.setItem('examProgress', JSON.stringify(answers));
+            showNotification('答题进度已保存', 'success');
+        }
+
+        // 提交考试
+        function submitExam() {
+            // 检查考生信息
+            const studentName = document.getElementById('student-name').value.trim();
+            if (!studentName) {
+                showNotification('请输入考生姓名', 'error');
+                return;
+            }
+
+            // 禁用提交按钮
+            document.getElementById('submit-btn').disabled = true;
+            document.getElementById('save-btn').disabled = true;
+
+            // 禁用所有题目选项
+            document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+                input.disabled = true;
+            });
+
+            // 计算分数
+            const scores = calculateScores();
+
+            // 显示结果区域
+            displayResults(scores);
+
+            // 显示错题解析
+            highlightIncorrectQuestions();
+
+            // 清除保存的进度
+            localStorage.removeItem('examProgress');
+
+            // 停止计时器
+            clearInterval(timerInterval);
+
+            // 显示"查看所有解析"按钮
+            document.getElementById('show-explanation-btn').style.display = 'inline-block';
+
+            // 滚动到结果区域
+            document.getElementById('result-area').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 计算分数
+        function calculateScores() {
+            const scores = {
+                single: 0,
+                multi: 0,
+                judgment: 0,
+                total: 0
+            };
+
+            const questions = document.querySelectorAll('.question');
+
+            questions.forEach(question => {
+                const type = question.dataset.type;
+                const score = parseInt(question.dataset.score);
+                const correctAnswer = question.dataset.correct;
+                
+                // 获取题号用于区分单选题和判断题
+                const questionNumberDiv = question.querySelector('.question-number');
+                const questionNumber = parseInt(questionNumberDiv.textContent);
+
+                let userAnswer;
+
+                if (type === 'single') {
+                    const selected = question.querySelector('input[type="radio"]:checked');
+                    userAnswer = selected ? selected.value : '';
+
+                    // 【修复问题1】只有题号1-10才计入单选题分数，题号16-20计入判断题分数
+                    if (questionNumber <= 10) {
+                        if (userAnswer === correctAnswer) {
+                            scores.single += score;
+                        }
+                    } else if (questionNumber >= 16) {
+                        if (userAnswer === correctAnswer) {
+                            scores.judgment += score;
+                        }
+                    }
+                } else if (type === 'multi') {
+                    const selected = question.querySelectorAll('input[type="checkbox"]:checked');
+                    userAnswer = Array.from(selected).map(input => input.value);
+
+                    // 获取正确答案数组
+                    const correctAnswers = correctAnswer.split(',');
+
+                    // 检查是否有选错的选项
+                    const hasWrongAnswer = userAnswer.some(ans => !correctAnswers.includes(ans));
+
+                    // 计算正确选择的选项数量
+                    const correctSelected = userAnswer.filter(ans => correctAnswers.includes(ans)).length;
+
+                    // 【修复问题2】根据规则计分
+                    if (hasWrongAnswer) {
+                        // 多选或选错选项：0分
+                        scores.multi += 0;
+                    } else if (correctSelected === correctAnswers.length) {
+                        // 全选正确：满分
+                        scores.multi += score;
+                    } else {
+                        // 少选：每个正确选项1分
+                        scores.multi += correctSelected;
+                    }
+
+                    // 将用户答案转换为字符串存储
+                    userAnswer = userAnswer.join('');
+                }
+
+                // 存储用户答案用于错题显示
+                question.dataset.userAnswer = userAnswer || '';
+            });
+
+            scores.total = scores.single + scores.multi + scores.judgment;
+
+            return scores;
+        }
+
+        // 显示考试结果
+        function displayResults(scores) {
+            document.getElementById('total-score').textContent = scores.total;
+            document.getElementById('single-score').textContent = scores.single;
+            document.getElementById('multi-score').textContent = scores.multi;
+            document.getElementById('judgment-score').textContent = scores.judgment;
+
+            document.getElementById('result-area').style.display = 'block';
+        }
+
+        // 高亮错题并显示解析
+        function highlightIncorrectQuestions() {
+            const questions = document.querySelectorAll('.question');
+            const incorrectContainer = document.getElementById('incorrect-container');
+            incorrectContainer.innerHTML = '';
+
+            questions.forEach(question => {
+                const type = question.dataset.type;
+                const correctAnswer = question.dataset.correct;
+                const userAnswer = question.dataset.userAnswer;
+                const explanation = question.querySelector('.explanation');
+
+                let isCorrect = false;
+
+                if (type === 'single') {
+                    isCorrect = userAnswer === correctAnswer;
+                } else if (type === 'multi') {
+                    // 获取正确答案数组
+                    const correctAnswers = correctAnswer.split(',');
+                    const userAnswers = userAnswer ? userAnswer.split('') : [];
+
+                    // 检查是否有选错的选项
+                    const hasWrongAnswer = userAnswers.some(ans => !correctAnswers.includes(ans));
+
+                    // 检查正确选择的选项数量
+                    const correctSelected = userAnswers.filter(ans => correctAnswers.includes(ans)).length;
+
+                    // 根据规则判断是否正确
+                    isCorrect = !hasWrongAnswer && 
+                                userAnswers.length <= correctAnswers.length &&
+                                correctSelected === correctAnswers.length;
+                }
+
+                if (!isCorrect) {
+                    // 高亮错题
+                    question.classList.add('incorrect');
+
+                    // 显示解析
+                    if (explanation) {
+                        explanation.classList.add('show');
+                    }
+
+                    // 添加到错题解析区域
+                    const questionClone = question.cloneNode(true);
+                    questionClone.classList.remove('incorrect');
+                    questionClone.style.marginBottom = '20px';
+                    questionClone.style.border = '1px solid #ddd';
+                    questionClone.style.padding = '15px';
+                    questionClone.style.borderRadius = '8px';
+
+                    // 显示用户答案和正确答案
+                    const answerInfo = document.createElement('div');
+                    answerInfo.style.marginTop = '10px';
+                    answerInfo.style.padding = '10px';
+                    answerInfo.style.backgroundColor = '#ffebee';
+                    answerInfo.style.borderRadius = '4px';
+
+                    // 格式化多选题答案显示
+                    let displayUserAnswer = userAnswer || '未作答';
+                    let displayCorrectAnswer = correctAnswer;
+
+                    if (type === 'multi') {
+                        // 将"ABC"格式化为"A,B,C"
+                        if (displayUserAnswer && displayUserAnswer.length > 1) {
+                            displayUserAnswer = displayUserAnswer.split('').join(',');
+                        }
+                        if (displayCorrectAnswer && displayCorrectAnswer.length > 1) {
+                            displayCorrectAnswer = displayCorrectAnswer.split(',').join(',');
+                        }
+                    }
+
+                    answerInfo.innerHTML = `<strong>您的答案：</strong> ${displayUserAnswer} | 
+                                           <strong>正确答案：</strong> ${displayCorrectAnswer}`;
+
+                    questionClone.appendChild(answerInfo);
+                    incorrectContainer.appendChild(questionClone);
+                }
+            });
+
+            if (incorrectContainer.children.length === 0) {
+                incorrectContainer.innerHTML = '<p class="success-message">恭喜！所有题目回答正确。</p>';
+            }
+        }
+
+        // 显示所有解析
+        function showAllExplanations() {
+            const explanations = document.querySelectorAll('.explanation');
+            explanations.forEach(exp => {
+                exp.classList.add('show');
+            });
+
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            showNotification('已显示所有题目解析', 'success');
+        }
+
+        // 发送邮件
+        function sendEmail() {
+            const studentName = document.getElementById('student-name').value.trim();
+            const studentEmail = document.getElementById('student-email').value.trim();
+            const totalScore = document.getElementById('total-score').textContent;
+
+            if (!studentName) {
+                showNotification('请输入考生姓名', 'error');
+                return;
+            }
+
+            // 创建邮件内容
+            const subject = `考生成绩 - ${studentName}`;
+            const body = `考官您好，\n\n以下是考生 ${studentName} 的考试成绩：\n\n` +
+                `总分：${totalScore}/100\n` +
+                `单选题得分：${document.getElementById('single-score').textContent}/50\n` +
+                `多选题得分：${document.getElementById('multi-score').textContent}/25\n` +
+                `判断题得分：${document.getElementById('judgment-score').textContent}/25\n\n` +
+                `试卷页面截图：请考生将考试结果页面截图并附在邮件中发送。\n\n` +
+                `考生信息：\n姓名：${studentName}\n邮箱：${studentEmail || '未提供'}\n\n` +
+                `此邮件由考试系统自动发送。`;
+
+            // 创建一个模态框
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.zIndex = '2000';
+
+            const modalContent = document.createElement('div');
+            modalContent.style.backgroundColor = 'white';
+            modalContent.style.padding = '20px';
+            modalContent.style.borderRadius = '8px';
+            modalContent.style.width = '80%';
+            modalContent.style.maxWidth = '500px';
+
+            const closeButton = document.createElement('button');
+            closeButton.textContent = '关闭';
+            closeButton.style.marginTop = '15px';
+            closeButton.style.padding = '8px 16px';
+            closeButton.style.backgroundColor = '#3498db';
+            closeButton.style.color = 'white';
+            closeButton.style.border = 'none';
+            closeButton.style.borderRadius = '4px';
+            closeButton.style.cursor = 'pointer';
+
+            const title = document.createElement('h3');
+            title.textContent = '发送考试成绩';
+            title.style.marginBottom = '15px';
+
+            const bodyText = document.createElement('p');
+            bodyText.textContent = '请将以下内容复制并粘贴到邮件中发送至: chauvet@fanruan.com';
+
+            const subjectLabel = document.createElement('p');
+            subjectLabel.innerHTML = `<strong>邮件主题：</strong> ${subject}`;
+
+            const bodyLabel = document.createElement('p');
+            bodyLabel.innerHTML = `<strong>邮件正文：</strong>`;
+
+            const bodyTextarea = document.createElement('textarea');
+            bodyTextarea.style.width = '100%';
+            bodyTextarea.style.height = '200px';
+            bodyTextarea.style.marginTop = '10px';
+            bodyTextarea.style.padding = '10px';
+            bodyTextarea.style.boxSizing = 'border-box';
+            bodyTextarea.textContent = body;
+
+            const buttonContainer = document.createElement('div');
+            buttonContainer.style.display = 'flex';
+            buttonContainer.style.justifyContent = 'space-between';
+            buttonContainer.style.marginTop = '15px';
+
+            const copyButton = document.createElement('button');
+            copyButton.textContent = '复制邮件内容';
+            copyButton.className = 'btn btn-primary';
+            copyButton.style.marginRight = '10px';
+
+            const openEmailButton = document.createElement('button');
+            openEmailButton.textContent = '打开QQ邮箱';
+            openEmailButton.className = 'btn btn-success';
+
+            // 添加事件监听器
+            copyButton.addEventListener('click', function () {
+                bodyTextarea.select();
+                document.execCommand('copy');
+                showNotification('邮件内容已复制到剪贴板', 'success');
+            });
+
+            openEmailButton.addEventListener('click', function () {
+                window.open('https://mail.qq.com/', '_blank');
+            });
+
+            closeButton.addEventListener('click', function () {
+                document.body.removeChild(modal);
+            });
+
+            // 组装模态框
+            buttonContainer.appendChild(copyButton);
+            buttonContainer.appendChild(openEmailButton);
+
+            modalContent.appendChild(title);
+            modalContent.appendChild(bodyText);
+            modalContent.appendChild(subjectLabel);
+            modalContent.appendChild(bodyLabel);
+            modalContent.appendChild(bodyTextarea);
+            modalContent.appendChild(buttonContainer);
+            modalContent.appendChild(closeButton);
+
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+        }
+
+        // 重新查看试卷
+        function reviewExam() {
+            document.getElementById('result-area').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 离开页面警告
+        function handleBeforeUnload(e) {
+            // 检查是否有未保存的进度
+            const anyAnswered = document.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked').length > 0;
+
+            if (anyAnswered) {
+                e.preventDefault();
+                e.returnValue = '';
+                return '您有未提交的答题进度，确定要离开吗？';
+            }
+        }
+
+        // 显示通知
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification ' + type;
+
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
